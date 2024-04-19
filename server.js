@@ -23,12 +23,11 @@ app.use(express.urlencoded({extended: true}))
 const storiesData = await fetchJson('https://fdnd-agency.directus.app/items/tm_story');
 
 // Haal alle playlists uit de API op
-const playlistsData = await fetchJson('https://fdnd-agency.directus.app/items/tm_playlist');
+const playlistsData = await fetchJson('https://fdnd-agency.directus.app/items/tm_playlist?fields=*,image.height,image.width');
 
 // Haal alle talen op
 const languageData = await fetchJson('https://fdnd-agency.directus.app/items/tm_language');
 
-let likes = [];
 // Maak een GET route voor de index
 app.get('/', async function (request, response) {
     // Render index.ejs uit de views map en geef de opgehaalde data mee als variabelen, genaamd stories en playlists
@@ -71,102 +70,6 @@ app.get('/playlist/:slug', async function (request, response) {
       response.redirect(404, '/')
   }
 });
-
-
-
-// maak een POST route voor lessons (like)
-app.post('/playlist/:slug/like', function(request, response) {
-    const playlistSlug = request.params.slug;
-    const action = request.body.action; // Retrieve the value of the 'actie' parameter from the form
-  
-    // Implement the logic to handle liking or unliking the playlist
-    if (action === 'like') {
-      likes[playlistSlug] = true
-      likes.push(request.body.likes);
-      // Handle 'like' action
-    } else if (action === 'unlike') {
-      likes[playlistSlug] = false
-    }
-    response.redirect('/lessons')
-    });
-
-
-//deze post werkt (nog)niet ivm forbidden toegang
-/*app.post('/create-playlist', async function (request, response) {
-  try {
-      const { title, description, slug, stories, languageId } = request.body;
-
-      if (!title || !description || !slug || !languageId || !stories || stories.length === 0) {
-          return response.status(400).json({ message: 'Missing required data' });
-      }
-
-      // Construct the data object to send to the API
-      const createPlaylist = {
-          title: title,
-          description: description,
-          slug: slug,
-          language_id: languageId,
-          stories: stories
-      };
-
-      // Send POST request to api
-      const apiResponse = await fetch('https://fdnd-agency.directus.app/items/tm_playlist', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(createPlaylist)
-      });
-
-      // Check if request was successful
-      if (!apiResponse.ok) {
-          // Handle API error response
-          console.error('Failed to create playlist:', apiResponse.statusText);
-          return response.status(apiResponse.status).json({ message: 'Failed to create playlist' });
-      }
-
-      // Redirect back to the lessons page
-      response.redirect('/lessons');
-  } catch (error) {
-      // Handle error
-      console.error('Error creating playlist:', error);
-      response.status(500).json({ message: 'Internal Server Error' });
-  }
-});
-*/
-app.post('/create-playlist', function (request, response) {
-  try {
-      const { title, description, slug, stories, languageId } = request.body;
-
-      console.log('Received playlist data:');
-      console.log('Title:', title);
-      console.log('Description:', description);
-      console.log('Slug:', slug);
-      console.log('Language ID:', languageId);
-      console.log('Stories:', stories);
-
-      response.status(200).json({ 
-          message: 'Playlist made',
-          title: title,
-          description: description,
-          slug: slug,
-          languageId: languageId,
-          stories: stories
-      });
-  } catch (error) {
-      // Handle error
-      console.error('Error creating playlist:', error);
-      response.status(500).json({ message: 'Internal Server Error' });
-  }
-});
-
-
-
-// Maak een POST route voor de index
-app.post('/', function (request, response) {
-  // Er is nog geen afhandeling van POST, redirect naar GET op /
-  response.redirect(303, '/')
-})
 
 // Stel het poortnummer in waar express op moet gaan luisteren
 app.set('port', process.env.PORT || 8000)

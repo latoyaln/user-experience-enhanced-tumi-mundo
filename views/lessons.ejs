@@ -1,0 +1,72 @@
+<%- include('partials/head') %>
+
+<section class="lessons-story">
+  <h1>Lessons</h1>
+  <h2>Own playlist</h2>
+  
+  <section class="playlists-story">
+    <article class="own-playlist">
+      <a href="/playlist/<%= playlists[0].slug %>" aria-label="go to playlist"> 
+        <% if (playlists[0].image) { %>
+          <img src="https://fdnd-agency.directus.app/assets/<%= playlists[0].image %>" width="<%= playlists[0].image.width %>" height="<%= playlists[0].image.height %>" alt="<%= playlists[0].title %> Image">
+        <% } %>  
+          <p><strong><%= playlists[0].title %></strong></p>
+          <svg height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM10.6935 15.8458L15.4137 13.059C16.1954 12.5974 16.1954 11.4026 15.4137 10.941L10.6935 8.15419C9.93371 7.70561 9 8.28947 9 9.21316V14.7868C9 15.7105 9.93371 16.2944 10.6935 15.8458Z" fill="#FF8C59"></path> </g></svg>
+          <p class="time"><strong>31 min. 55 sec</strong></p>
+      </a>
+   </article>  
+
+      <button class="own-playlist create-playlist" id="createPlaylistButton">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 12H20M12 4V20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+        <p><strong>Make a playlist !</strong></p>
+        <p>Add your favorite stories in one playlist</p>
+      </button>
+  </section>
+
+  <section class="allstories-story">
+    <h2>All Stories</h2>
+    <div class="button-row">
+        <button class="languagebutton"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/800px-Flag_of_the_Netherlands.svg.png?20100406171959" alt="Dutch Flag">Dutch</button>
+        <button class="languagebutton"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/800px-Flag_of_the_United_Kingdom_%283-5%29.svg.png?20230715230526" alt="UK Flag" class="active">English</button>
+      <a class="show-all-button" href="/stories">Show All</a>
+    </div>
+    <div class="story-grid">
+      <%- include('partials/allstories') %>
+    </div>
+  </section>
+
+  <section class="liked-playlist">
+    <h2>Liked playlist</h2>
+    <% if (likes.length < 1) { %>
+      <p>No liked playlist yet..</p>
+    <% } else { %>
+         <% likes.forEach(playlist => { %>
+          <article class="own-playlist">
+            <a href="/playlist/<%=playlist.slug %>" aria-label="go to playlist"> 
+                <img src="https://fdnd-agency.directus.app/assets/<%= playlist.image %>" alt="<%= playlist.title %> Image">
+                <p><strong><%= playlist.title %></strong></p>
+                <svg height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM10.6935 15.8458L15.4137 13.059C16.1954 12.5974 16.1954 11.4026 15.4137 10.941L10.6935 8.15419C9.93371 7.70561 9 8.28947 9 9.21316V14.7868C9 15.7105 9.93371 16.2944 10.6935 15.8458Z" fill="#FF8C59"></path> </g></svg>
+                <p class="time"><strong>31 min. 55 sec</strong></p>
+            </a>
+        </article>
+        <% }) %>
+    <% } %>
+
+  <h2>Suggested Playlist</h2>
+  <section class="playlists-story suggested">
+    <% playlists.forEach(function(playlist) { %>
+      <article class="own-playlist">
+          <a href="/playlist/<%=playlist.slug %>" aria-label="go to playlist"> 
+            <% if (playlist.image) { %>
+              <img src="https://fdnd-agency.directus.app/assets/<%= playlist.image %>" width="<%= playlist.image.width %>" height="<%= playlist.image.height %>" alt="<%= playlist.title %> Image">
+            <% } %>    
+              <p><strong><%= playlist.title %></strong></p>
+              <svg height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22ZM10.6935 15.8458L15.4137 13.059C16.1954 12.5974 16.1954 11.4026 15.4137 10.941L10.6935 8.15419C9.93371 7.70561 9 8.28947 9 9.21316V14.7868C9 15.7105 9.93371 16.2944 10.6935 15.8458Z" fill="#FF8C59"></path> </g></svg>
+              <p class="time"><strong>31 min. 55 sec</strong></p>
+          </a>
+      </article>
+  <% }); %>
+  </section>
+</section>
+
+<%- include('partials/foot') %>
