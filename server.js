@@ -23,22 +23,24 @@ app.use(express.urlencoded({extended: true}))
 const storiesData = await fetchJson('https://fdnd-agency.directus.app/items/tm_story');
 
 // Haal alle playlists uit de API op
-const playlistsData = await fetchJson('https://fdnd-agency.directus.app/items/tm_playlist?fields=*,image.height,image.width');
+const playlistsData = await fetchJson('https://fdnd-agency.directus.app/items/tm_playlist?fields=*,image.id,image.height,image.width');
 
 // Haal alle talen op
 const languageData = await fetchJson('https://fdnd-agency.directus.app/items/tm_language');
 
+let liked = [];
+
 // Maak een GET route voor de index
 app.get('/', async function (request, response) {
     // Render index.ejs uit de views map en geef de opgehaalde data mee als variabelen, genaamd stories en playlists
-    response.render('index', { stories: storiesData.data, playlists: playlistsData.data });
+    response.render('index', { stories: storiesData.data, playlists: playlistsData.data, liked:liked });
 
 })
 
 // Maak een GET route voor de lessons page
 app.get('/lessons', async function (request, response) {
   // Render lessons.ejs uit de views map en geef de opgehaalde data mee als variabelen, genaamd stories en playlists
-  response.render('lessons', { stories: storiesData.data, playlists: playlistsData.data, language:languageData.data, likes: likes });
+  response.render('lessons', { stories: storiesData.data, playlists: playlistsData.data, language:languageData.data, liked:liked  });
 })
 
 // Maak een GET route voor de stories
@@ -64,12 +66,38 @@ app.get('/playlist/:slug', async function (request, response) {
 
   if (playlist) {
       // Render een specifieke playlist.ejs template en geef de playlist data mee
-      response.render('playlist', { playlist: playlist, likes: likes });
+      response.render('playlist', { playlist: playlist, liked:liked });
   } else {
       // Playlist niet gevonden, geef bijvoorbeeld een 404 pagina weer
       response.redirect(404, '/')
   }
 });
+
+// POST route for liking or unliking a playlist
+app.post("/playlist/:slug/like", (request, response) => {
+  const playlistSlug = request.params.slug;
+  const playlist = playlistsData.data.find(
+    (playlist) => playlist.slug === playlistSlug
+  );
+
+  if (playlist) {
+    const index = liked.findIndex((item) => item.slug === playlist.slug);
+    if (index === -1) {
+      liked.push(playlist);
+    } else {
+      liked.splice(index, 1);
+    }
+  } else {
+    console.log("Playlist not found:", playlistSlug);
+  }
+
+  if (request.body.enhanced) {
+    response.render('partials/liked-playlist', {liked: liked})
+  } else {
+    response.redirect(303, '/lessons')
+  }
+});
+
 
 // Stel het poortnummer in waar express op moet gaan luisteren
 app.set('port', process.env.PORT || 8000)

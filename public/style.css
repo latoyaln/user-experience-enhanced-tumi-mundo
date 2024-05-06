@@ -74,8 +74,267 @@ p{
     border: none;
     border-radius: 5px;
 }
+img { max-width: 100%; height: auto; }
 /*end general styling*/
 
+/* CSS for navigation menu */
+nav {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black-tranparent);
+    z-index: 100;
+    position: fixed;
+    inset: 0;
+    bottom: 0; 
+    right: 0; 
+    transition: transform 0.5s ease-out; 
+    transform: translateY(100%); 
+}
+
+/* Show the navigation menu when it is targeted */
+nav:target {
+    transform: translateY(0); /* Show the nav by moving it to the top */
+}
+
+nav ul {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2.5rem;
+    padding: 0; /* Remove default padding */
+}
+
+nav ul li {
+    padding: 10px 0;
+    font-size: 22px;
+    list-style: none;
+    cursor: pointer;
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: var(--white);
+    transition: color 0.3s ease;
+    text-align: center;
+}
+nav ul li img{
+    padding: var(--padding-1);
+    border-radius: 5px;
+    width: auto;
+    height: 100%;
+}
+nav ul li:nth-child(1) img{
+    background: #3F92B6;
+}
+nav ul li:nth-child(2) img{
+    background: #599AE7;
+}
+nav ul li:nth-child(3) img{
+    background: #954BE2;
+}
+nav ul li:nth-child(4) img{
+    background: #06A192;
+}
+nav ul li:nth-child(5) img{
+    background: #FD8C73;
+}
+
+a.hamburger {
+    position: fixed;
+    background-color: var(--black-tranparent);
+    padding: var(--padding-1);
+    border-radius: 5px;
+    bottom: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    z-index: 200;
+}
+
+a.hamburger svg {
+    width: 30px;
+    height: 30px;
+    fill: #fff;
+}
+
+.close {
+    display: none; 
+}
+
+
+nav:target + .hamburger {
+    display: none;
+}
+
+nav:target + .close {
+    display: block;
+}
+
+/*end nav styling*/
+
+/*lessons page styling*/
+
+.lessons-story{
+    background: var(--method);
+    padding: var(--padding-1);
+}
+
+.lessons-story h1{
+    text-align: center;
+}
+
+/*playlist styling start*/
+.playlists-story{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: var(--padding-1);
+    grid-row-gap: 0px;
+}
+.playlists-story .suggested{
+    grid-template-rows: repeat(2, 1fr);
+}
+.own-playlist{
+    background-color: var(--white);
+    padding: var(--padding-1);
+    width: 100%;
+    margin-bottom: var(--padding-1);
+    border-radius: 5px;
+    margin-right: 1rem;
+}
+
+.own-playlist a {
+    text-decoration: none;
+    color: var(--black);
+}
+
+.own-playlist img{
+    width: 100%;
+
+}
+
+.own-playlist .languagebutton{
+    border-radius: 5px;
+    border: none;
+    padding: 0.5em;
+    display: flex;
+    cursor: pointer;
+}
+
+.own-playlist svg{
+    display: inline-block;
+    justify-self: center;
+}
+
+.own-playlist .time{
+    display: inline-block;
+}
+.create-playlist{
+    background-color: var( --method-playlist);
+    color: var(--white);
+    border: none;
+}
+.button-row{
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--padding-1);
+}
+.languagebutton:nth-of-type(1){
+    background-color: var(--method-playlist);
+    color: var(--white);
+}
+.languagebutton:nth-of-type(2){
+    margin-left: var(--padding-1);
+}
+.button-row img{
+    width: 20px;
+    margin-right: 5px;
+}
+.show-all-button{
+    margin-left: 2rem;
+    text-decoration: none;
+    color: var(--white);    
+}
+/*playlist styling end*/
+
+.story-card{
+    background-color: var(--white);
+    padding: var(--padding-1);
+    border-radius: 10px;
+    color: var(--black);
+    height: 190px;
+    margin-bottom: var(--padding-1);
+    overflow: hidden;
+}
+.story-card img {
+        padding-right: var(--padding-1);
+        height: 100%;
+        width: auto;
+        max-width: 35%;
+        border-radius: 5px;
+        float: left;
+    }
+.story-card .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.story-grid .story-card:nth-child(n + 4) {
+    display: none;
+}
+
+.popup-create {
+    display: none;
+    position: fixed; 
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+    color: var(--black);
+}
+fieldset{
+    color: var(--black);
+}
+
+.popup-create-content{
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%; 
+}
+
+.close-create {
+    color: var(--black);
+    float: right;
+    font-size: var(--p);
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+}
+.close-create:hover,
+.close-create:focus {
+    color: var(--general-button);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/*desktop*/
+@media screen and (min-width: 720px) {
+    .lessons-story{
+        .playlists-story {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(1, 1fr);
+        }
+    }
+}
+/*end lessons page styling*/
 
 /*homepage*/
 .home-mouse{
