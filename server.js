@@ -59,6 +59,10 @@ app.get('/stories', async function (request, response) {
   response.render('stories', { stories: filteredStories });
 });
 
+
+app.get('/liked', function(request, response) {
+  response.render('liked', {liked: liked})
+})
 // Maak een GET route voor een specifieke playlist op basis van de slug
 app.get('/playlist/:slug', async function (request, response) {
   const slug = request.params.slug; // Haal de slug op uit de URL
@@ -72,7 +76,6 @@ app.get('/playlist/:slug', async function (request, response) {
       response.redirect(404, '/')
   }
 });
-
 // POST route for liking or unliking a playlist
 app.post("/playlist/:slug/like", (request, response) => {
   const playlistSlug = request.params.slug;
@@ -92,12 +95,13 @@ app.post("/playlist/:slug/like", (request, response) => {
   }
 
   if (request.body.enhanced) {
-    response.render('partials/liked-playlist', {liked: liked})
+    // Render the 'partials/liked' template with the updated liked playlists
+    response.render('partials/liked', { liked: liked });
   } else {
-    response.redirect(303, '/lessons')
+    // Redirect to '/lessons' if not enhanced
+    response.redirect(303, '/lessons');
   }
 });
-
 
 // Stel het poortnummer in waar express op moet gaan luisteren
 app.set('port', process.env.PORT || 8000)
