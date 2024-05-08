@@ -19,7 +19,7 @@ In deze repository ben ik gaan werken aan een POST functie waarbij de eindgebrui
 
 ![Responsıve mockup.pdf](https://github.com/latoyaln/Tumi-Mundo-interactive-functionality/files/14881800/Responsive.mockup.pdf)
 
-(https://tumi-mundo-interactive-functionality.onrender.com/)
+(https://user-experience-enhanced-tumi-mundo.onrender.com)
 
 ## Kenmerken
 Deze site is gemaakt door Node EJS en Express.
